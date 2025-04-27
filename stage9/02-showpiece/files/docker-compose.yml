@@ -1,0 +1,10 @@
+services:
+   showpiece:
+      container_name: showpiece
+      image: corysanin/showpiece:latest
+      restart: always
+      ports:
+         - 8080:8080
+      volumes:
+         - /etc/localtime:/etc/localtime:ro
+         - ./config:/usr/src/showpiece/config

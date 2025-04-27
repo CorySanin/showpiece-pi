@@ -10,6 +10,8 @@ firefox rpi-firefox-mods
 gldriver-test
 fonts-droid-fallback
 fonts-liberation2
+fonts-noto
+fonts-noto-color-emoji
 obconf
 raindrop
 libcamera-tools

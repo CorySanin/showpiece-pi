@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Chromium
+Exec=chromium-browser --profile-directory="showpiece-browser" --kiosk https://showpiece.sanin.dev/
+StartupNotify=false
+Terminal=false

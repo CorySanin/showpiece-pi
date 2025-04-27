@@ -1,6 +1,8 @@
 xserver-xorg xinit
+x11-xserver-utils
 mousepad
 eom
+vim
 lxde lxtask menu-xdg
 zenity xdg-utils
 gvfs-backends gvfs-fuse

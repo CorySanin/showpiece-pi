@@ -1,0 +1,22 @@
+IMG_NAME="showpieceos-bookworm-arm64"
+PI_GEN_RELEASE="Showpiece OS Bookworm"
+RELEASE="bookworm"
+DEPLOY_COMPRESSION="none"
+COMPRESSION_LEVEL=0
+LOCALE_DEFAULT="en_US.UTF-8"
+TARGET_HOSTNAME="showpiece"
+KEYBOARD_KEYMAP="us"
+KEYBOARD_LAYOUT="English (US)"
+TIMEZONE_DEFAULT="America/Chicago"
+FIRST_USER_NAME="pi"
+FIRST_USER_PASS="letmein"
+DISABLE_FIRST_BOOT_USER_RENAME=1
+WPA_COUNTRY=US
+ENABLE_SSH=0
+STAGE_LIST=""
+for d in stage*; do
+    if [ -d "$d" ] && [ ! -f "$d/SKIP" ]; then
+        STAGE_LIST+="$d "
+    fi
+done
+STAGE_LIST="$(echo "$STAGE_LIST" | xargs)"
