@@ -1,0 +1,56 @@
+name: Build images
+
+on:
+  push:
+    branches:
+      - showpiece
+    tags:
+      - 'v*'
+
+
+jobs:
+
+  build_images:
+    name: Build images
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: true
+    env:
+      DEPLOY: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: read
+      packages: write
+  
+    steps:
+      - name: Checkout
+        uses: https://github.com/actions/checkout@v4
+      
+      - name: Apply patches
+        run: ./runtime-patches.sh
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update &&
+          sudo apt-get install -y qemu-user-static quilt debootstrap libarchive-tools arch-test binfmt-support
+      
+      - name: Setup binfmt_misc
+        run: |
+          ls /proc/sys/fs/binfmt_misc/ || true
+          sudo mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true
+          sudo update-binfmts --enable qemu-aarch64
+      
+      - name: Run build process
+        run: |
+          sudo ./build.sh &&
+          sudo mv deploy/*-arm64-standalone.img deploy/showpieceos-arm64-standalone.img &&
+          sudo mv deploy/*-arm64-client.img deploy/showpieceos-arm64-client.img
+      
+      - name: Publish artifacts
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          files: deploy/*.img
+
