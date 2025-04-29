@@ -46,11 +46,19 @@ jobs:
           sudo mv deploy/*-arm64-standalone.img deploy/showpieceos-arm64-standalone.img &&
           sudo mv deploy/*-arm64-client.img deploy/showpieceos-arm64-client.img
       
-      - name: Publish artifacts
+      - name: Publish client
         if: startsWith(github.ref, 'refs/tags/v')
         uses: https://github.com/softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
           name: ${{ github.ref_name }}
-          files: deploy/*.img
+          files: deploy/*-client.img
+      
+      - name: Publish standalone
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: https://github.com/softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          files: deploy/*-standalone.img
 
